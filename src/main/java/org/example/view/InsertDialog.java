@@ -2,6 +2,7 @@ package org.example.view;
 
 
 
+import org.example.controller.UserService;
 import org.example.model.User;
 
 import javax.swing.*;
@@ -9,7 +10,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import org.example.dao.UsersDAO;
 
 public class InsertDialog extends JDialog {
 
@@ -19,6 +19,7 @@ public class InsertDialog extends JDialog {
 
     private JCheckBox checkBoxDriver;
     private JTextField txtPassword;
+    private UserService userService = new UserService();
 
 
     public static void main(String[] args) {
@@ -94,15 +95,16 @@ contentPanel = new JPanel();
                     user.setDriver(false);
                 }
                 user.setPassword(txtPassword.getText());
-                UsersDAO userDao = new UsersDAO();
 
-               int count = userDao.addUser(user);
-                if(count>0){
+               int count = userService.addUser(user);
+                if(count>=0){
                     JOptionPane.showConfirmDialog(null, "Add operation success");
 
                 }else{
                     JOptionPane.showConfirmDialog(null, "Error Record");
                 }
+                UsersUI usersUI = new UsersUI();
+                usersUI.refreshTable();
                 dispose();
             }
         });
@@ -115,6 +117,8 @@ contentPanel = new JPanel();
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
+                UsersUI usersUI = new UsersUI();
+                usersUI.refreshTable();
             }
         });
 

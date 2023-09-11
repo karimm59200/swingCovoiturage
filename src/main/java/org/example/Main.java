@@ -10,7 +10,6 @@ Main {
             public void run() {
 
                 UsersUI usersUI = new UsersUI();
-
             }
         });
     }

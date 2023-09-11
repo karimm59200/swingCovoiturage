@@ -3,7 +3,7 @@ package org.example.view;
 
 
 
-import org.example.dao.UsersDAO;
+import org.example.controller.UserService;
 import org.example.model.User;
 
 import java.awt.BorderLayout;
@@ -24,6 +24,8 @@ public class UpdateDialog extends JDialog {
 
 	private JCheckBox checkBoxDriver;
 	private JTextField txtId;
+
+	private UserService userService = new UserService();
 
 	/**
 	 * Launch the application.
@@ -115,14 +117,12 @@ public class UpdateDialog extends JDialog {
 				checkBoxDriver.setEnabled(true);
 				// Crée une instance de ContactDAO pour interagir avec la base de données
 				//ContactDAO cDAO = new ContactDAO();
-				UsersDAO usersDAO = new UsersDAO();
-
 				// Récupère l'ID saisi dans le champ de texte "txtId" et le convertit en entier
 				int id = Integer.parseInt(txtId.getText());
 
 				// Recherche le contact correspondant à l'ID dans la base de données
 				//Contact contact = cDAO.searchContact(id);
-				User user = usersDAO.getUserById(id);
+				User user = userService.getUserById(id);
 
 				// Vérifie si le contact a été trouvé
 				if (user != null) {
@@ -195,14 +195,13 @@ public class UpdateDialog extends JDialog {
 
 				// Crée une instance de ContactDAO pour interagir avec la base de données
 				//ContactDAO cDAO = new ContactDAO();
-				UsersDAO usersDAO = new UsersDAO();
 
 				// Met à jour le contact dans la base de données et récupère le nombre de lignes modifiées
 				//int count = cDAO.updateContact(contact);
-				int count = usersDAO.updateUser(user);
+				int count = userService.updateUser(user);
 
 				// Vérifie si la mise à jour a été effectuée avec succès
-				if (count > 0) {
+				if (count >= 0) {
 					JOptionPane.showMessageDialog(null, "Record Updated Successfully!!!");
 				} else {
 					JOptionPane.showMessageDialog(null, "Record Can't Updated !!!");

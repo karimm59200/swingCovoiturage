@@ -14,9 +14,8 @@ import java.io.Serializable;
 @Data
 public class Comment implements Serializable {
     @Id
-    private Long id;
+    private int id;
     private int idTrip;
-    private String title;
     private String comment;
 
 }

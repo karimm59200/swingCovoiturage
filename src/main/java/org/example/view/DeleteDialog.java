@@ -3,7 +3,7 @@ package org.example.view;
 
 
 
-import org.example.dao.UsersDAO;
+import org.example.controller.UserService;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -24,6 +24,8 @@ public class DeleteDialog extends JDialog {
 
     private final JPanel contentPanel = new JPanel();
     private JTextField txtId;
+
+    private UserService userService = new UserService();
 
 
     public static void main(String[] args) {
@@ -81,12 +83,11 @@ public class DeleteDialog extends JDialog {
                     int id = Integer.parseInt(txtId.getText());
 
                     // Crée une instance de ContactDAO pour gérer les opérations sur les contacts
-                   // ContactDAO cDAO = new ContactDAO();
-                    UsersDAO uDAO = new UsersDAO();
+                   // ContactDAO cDAO = new ContactDAO()
 
                     // Appelle la méthode de suppression du contact dans la base de données
                    // int count = cDAO.deleteContact(id);
-                    int count = uDAO.deleteUsers(id);
+                    int count = userService.deleteUser(id);
 
                     // Affiche le résultat de la suppression dans la console
                     System.out.println("Result : " + count);

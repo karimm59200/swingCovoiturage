@@ -1,9 +1,15 @@
 package org.example.view;
 
 
+import org.example.controller.UserService;
+import org.example.model.Comment;
+import org.example.model.User;
+
 import javax.swing.*;
 import java.awt.*;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 
 public class Profil extends JFrame {
@@ -12,25 +18,27 @@ public class Profil extends JFrame {
     private JPanel panel1;
 
     private JTextField textFieldName;
-    private JLabel label1;
+
+    private JLabel labelProfil;
 
     private JTextField textFieldPrenom;
-    private JLabel label2;
+    private JLabel labelName;
 
     private JTextField textFieldEmail;
-    private JLabel label3;
-    private JLabel label4;
+    private JLabel labelFirstName;
+    private JLabel labelEmail;
 
     private JPanel panelImage;
 
-    private JButton buttonForPicture;
+    private UserService userService = new UserService();
+
+    private JButton backButton;
 
 
 
+    public Profil(int id, List<Comment> commentList)  {
 
-
-
-    public Profil()  {
+        User user = userService.getUserById(id);
 
 
         frame = new JFrame("Profil");
@@ -46,51 +54,62 @@ public class Profil extends JFrame {
         panelImage = new JPanel();
 //        Image icon = Toolkit.getDefaultToolkit().getImage("src/main/resources/images/user.png");
 //        frame.setIconImage(icon);
-        JButton buttonForPicture = new JButton(" une image");
-        buttonForPicture.setBounds(50, 50, 100, 100);
-        buttonForPicture.setBackground(Color.WHITE);
-        buttonForPicture.add(new JLabel(new ImageIcon("src/main/resources/images/user.png")));
+//
         panelImage.setBounds(50, 50, 100, 100);
         panelImage.setBackground(Color.WHITE);
         //panelImage.add(new JLabel(new ImageIcon("src/main/resources/images/user.png")));
-        panelImage.add(buttonForPicture);
+//        panelImage.add();
         panel1.add(panelImage);
 
 
-        label1 = new JLabel("Profil");
-        label1.setBounds(350, 50, 150, 30);
-        label1.setFont(new Font("Arial", Font.BOLD, 20));
-        panel1.add(label1);
+        labelProfil = new JLabel("Profil");
+        labelProfil.setBounds(350, 50, 150, 30);
+        labelProfil.setFont(new Font("Arial", Font.BOLD, 20));
+        panel1.add(labelProfil);
 
-        label2 = new JLabel("Nom :");
-        label2.setBounds(200, 100, 150, 30);
-        panel1.add(label2);
+        labelName = new JLabel("Nom :");
+        labelName.setBounds(200, 100, 150, 30);
+        panel1.add(labelName);
 
         textFieldName = new JTextField();
         textFieldName.setBounds(300, 100, 150, 30);
+        textFieldName.getText();
         textFieldName.setEditable(false);
+        textFieldName.setText(user.getName());
         panel1.add(textFieldName);
 
 
-        label3 = new JLabel("Prenom :");
-        label3.setBounds(200, 150, 100, 30);
-        panel1.add(label3);
+        labelFirstName = new JLabel("is Driver :");
+        labelFirstName.setBounds(200, 150, 100, 30);
+        panel1.add( labelFirstName);
 
         textFieldPrenom = new JTextField();
         textFieldPrenom.setBounds(300, 150, 100, 30);
         textFieldPrenom.setEditable(false);
+        textFieldPrenom.setText(String.valueOf(user.isDriver()));
         panel1.add(textFieldPrenom);
 
-        label4 = new JLabel("Email :");
-        label4.setBounds(200, 200, 100, 30);
-        panel1.add(label4);
+        labelEmail = new JLabel("Email :");
+        labelEmail.setBounds(200, 200, 100, 30);
+        panel1.add(labelEmail);
 
         textFieldEmail = new JTextField();
         textFieldEmail.setBounds(300, 200, 100, 30);
         textFieldEmail.setEditable(false);
+        textFieldEmail.setText(user.getEmail());
         panel1.add(textFieldEmail);
 
+        backButton = new JButton("Retour");
+        backButton.setBounds(300, 250, 100, 30);
+        panel1.add(backButton);
 
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // retour sur la page UsersUI
+
+            }
+        });
 
 
         frame.add(panel1);

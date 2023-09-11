@@ -1,23 +1,31 @@
 package org.example.view;
 
-import org.example.controller.UsersController;
+import org.example.controller.UserService;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
+
+import org.example.dao.CommentDAO;
+import org.example.model.Comment;
 import org.example.utils.UserTableModel;
 public class UsersUI extends JFrame {
-    private UsersController usersController;
+    private UserService userService;
     private JFrame frame;
     private JTable usersTable;
     private JButton addButton;
     private JButton updateButton;
     private JButton deleteButton;
-    private JButton profilButton;
+
+
+
 
 public UsersUI() {
-        this.usersController = new UsersController();
+        this.userService = new UserService();
         initializeUI();
     }
 
@@ -31,11 +39,10 @@ public UsersUI() {
 
     usersTable = new JTable();
     refreshTable();
-
     addButton = new JButton("Ajouter");
     updateButton = new JButton("Modifier");
     deleteButton = new JButton("Supprimer");
-    profilButton = new JButton("Profil");
+
 
     addButton.addActionListener(new ActionListener() {
         @Override
@@ -46,6 +53,7 @@ public UsersUI() {
             insertDialog.setSize(400, 300);
             insertDialog.setLocationRelativeTo(null);
             insertDialog.setVisible(true);
+            refreshTable();
 
         }
 
@@ -76,34 +84,44 @@ public UsersUI() {
         }
     });
 
-    profilButton.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //openProfilDialog();
-            Profil profilDialog = new Profil();
 
-
-
-        }
-    });
+        CommentDAO commentDAO=new CommentDAO();
+        commentDAO.insertComment(new Comment(0,10,"salut test commentaire"));
+        commentDAO.insertComment(new Comment(1,8,"salut test commentaire2"));
 
     JPanel buttonPanel = new JPanel();
     buttonPanel.add(addButton);
     buttonPanel.add(updateButton);
     buttonPanel.add(deleteButton);
-    buttonPanel.add(profilButton);
+
 
     frame.setLayout(new BorderLayout());
     frame.add(new JScrollPane(usersTable), BorderLayout.CENTER);
     frame.add(buttonPanel, BorderLayout.SOUTH);
 
     frame.setVisible(true);
+        usersTable.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent mouseEvent) {
+                JTable table =(JTable) mouseEvent.getSource();
+                Point point = mouseEvent.getPoint();
+                int row = table.rowAtPoint(point);
+                row = userService.getAllUsers().get(table.convertRowIndexToModel(row)).getId();
+                CommentDAO commentDAO=new CommentDAO();
+                List<Comment> comments = commentDAO.getCommentByTripId(row);
+                //commentDAO.deleteAllComments();
+                if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
+                    // your valueChanged overridden method
+                    Profil profilDialog = new Profil(row, comments);
+                }
+            }
+        });
 
 
     }
 
-    private void refreshTable() {
-        UserTableModel userTableModel = new UserTableModel(usersController.getAllUsers());
+    public void refreshTable() {
+        UserTableModel userTableModel = new UserTableModel(userService.getAllUsers());
+        userTableModel.fireTableDataChanged();
         usersTable.setModel(userTableModel);
 
     }
