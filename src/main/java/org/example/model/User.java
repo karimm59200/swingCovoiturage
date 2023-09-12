@@ -35,6 +35,14 @@ public class User implements Serializable {
         this.driver = driver;
     }
 
+//    public static int countDriver(){
+//         int count = 0;
+//        if( "driver" == true){
+//            count ++;
+//        }
+//        return count
+//    }
+
     public int getId() {
         return id;
     }

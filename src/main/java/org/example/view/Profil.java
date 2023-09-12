@@ -4,6 +4,8 @@ package org.example.view;
 import org.example.controller.UserService;
 import org.example.model.Comment;
 import org.example.model.User;
+import org.example.utils.CommentTableModel;
+import org.example.utils.UserTableModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,6 +35,7 @@ public class Profil extends JFrame {
     private UserService userService = new UserService();
 
     private JButton backButton;
+    private JTable commentsTable;
 
 
 
@@ -55,7 +58,8 @@ public class Profil extends JFrame {
 //        Image icon = Toolkit.getDefaultToolkit().getImage("src/main/resources/images/user.png");
 //        frame.setIconImage(icon);
 //
-        panelImage.setBounds(50, 50, 100, 100);
+
+        panelImage.setBounds(20, 20, 100, 100);
         panelImage.setBackground(Color.WHITE);
         //panelImage.add(new JLabel(new ImageIcon("src/main/resources/images/user.png")));
 //        panelImage.add();
@@ -79,7 +83,7 @@ public class Profil extends JFrame {
         panel1.add(textFieldName);
 
 
-        labelFirstName = new JLabel("is Driver :");
+        labelFirstName = new JLabel("Conducteur :");
         labelFirstName.setBounds(200, 150, 100, 30);
         panel1.add( labelFirstName);
 
@@ -99,20 +103,33 @@ public class Profil extends JFrame {
         textFieldEmail.setText(user.getEmail());
         panel1.add(textFieldEmail);
 
+        commentsTable = new JTable();
+        CommentTableModel commentTableModel = new CommentTableModel(commentList);
+        commentTableModel.fireTableDataChanged();
+        commentsTable.setModel(commentTableModel);
+
+
         backButton = new JButton("Retour");
         backButton.setBounds(300, 250, 100, 30);
         panel1.add(backButton);
 
+        JPanel tabelPanel= new JPanel();
+        tabelPanel.add(new JScrollPane(commentsTable),BorderLayout.SOUTH);
+
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // retour sur la page UsersUI
-
+                // retour vers UsersUI
+            UsersUI usersUI = new UsersUI();
+            dispose();
             }
         });
-
-
-        frame.add(panel1);
+// create a separator
+        JSeparator s = new JSeparator();
+        JSplitPane pane = new JSplitPane( JSplitPane.VERTICAL_SPLIT,
+                panel1, tabelPanel );
+        // set layout as vertical
+        frame.add(pane, BorderLayout.CENTER);
         frame.setVisible(true);
     }
 

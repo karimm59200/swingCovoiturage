@@ -2,8 +2,10 @@ package org.example.utils;
 
 import javax.swing.table.AbstractTableModel;
 
+import org.bson.internal.BsonUtil;
 import org.example.model.User;
 
+import java.sql.SQLOutput;
 import java.util.List;
 
 public class UserTableModel extends AbstractTableModel {
@@ -14,13 +16,16 @@ public class UserTableModel extends AbstractTableModel {
     public UserTableModel(List<User> userList) {
 
         this.userList = userList;
+        int rows = userList.size();
+//        System.out.println(rows + " nombre d'utilisateurs");
     }
 
 
 
 
     @Override
-    public int getRowCount() {return userList.size();}
+    public int getRowCount() {return userList.size();
+    }
 
     @Override
     public int getColumnCount() {return columnNames.length;}
@@ -29,6 +34,7 @@ public class UserTableModel extends AbstractTableModel {
     public String getColumnName(int columnIndex) {
         return columnNames[columnIndex];
     }
+
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
@@ -44,6 +50,12 @@ public class UserTableModel extends AbstractTableModel {
                 return user.isDriver();
             default:
                 return null;
+
         }
+
     }
+
+
+
+
 }

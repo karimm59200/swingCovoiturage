@@ -101,6 +101,9 @@ public class DeleteDialog extends JDialog {
 
                     // Ferme la boîte de dialogue après avoir effectué l'opération
                     dispose();
+                    UsersUI usersUI = new UsersUI();
+                    usersUI.refreshTable();
+
                 }
             });
 

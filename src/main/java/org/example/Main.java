@@ -1,4 +1,5 @@
 package org.example;
+import org.example.view.LogingUI;
 import org.example.view.UsersUI;
 import javax.swing.*;
 
@@ -9,7 +10,7 @@ Main {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
 
-                UsersUI usersUI = new UsersUI();
+                 LogingUI logingUI =new LogingUI();
             }
         });
     }
